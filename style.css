@@ -1,0 +1,385 @@
+body{
+    font-family: "Raleway";
+}
+.header {
+    padding:1px;
+    background-color: black;
+    color: #f1f1f1;
+  }
+  
+  /* Page content */
+  .content {
+    padding: 16px;
+    
+  }
+  
+  /* The sticky class is added to the header with JS when it reaches its scroll position */
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+  }
+  
+  /* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+  .sticky + .content {
+    padding-top: 102px;
+  }
+  .top-container {
+    background-image: url("https://t4.ftcdn.net/jpg/05/16/97/61/360_F_516976169_Yrc8r06xOJbbhpo0R84pqrpArahBJfur.jpg");
+    padding: 220px;
+   background-size: cover;
+   
+
+  }
+  .top-container h1{
+    color: rgb(239, 239, 243);
+    font-size: 50px;
+    text-align: center;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  }
+  .top-container h1 strong{
+    color: rgb(232, 80, 169);
+  }
+  .top-container button{
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6);
+    font-size: 1.5em;
+    cursor: pointer;
+            border: 1px solid #f9fbfc;
+            background-color: transparent;
+            height: 50px;
+            width: 200px;
+            color: #fafcfe;
+            
+  }
+  .btn{
+    display: flex;
+    justify-content: center;
+  }
+  button a{
+    color: #f1f1f1;
+    text-decoration: none;
+  }
+  .top-container button:hover{
+    color: #f1f1f1;
+            background-color: rgb(11, 116, 67);      
+  }
+
+
+ul{
+    display: flex;
+    font-size: 17px;
+}
+
+ul li{
+    list-style: none;
+   margin:0 60px 0 0px;
+   text-transform: uppercase;
+ }
+ ul li a{
+    color: #f7f4f4;
+    text-decoration: none;
+}
+ul li a:hover{
+    color: #cd115f
+}
+#about h1{
+    font-size: 40px;
+    text-underline-offset: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 100px;
+    color: rgb(19, 19, 96);
+}
+#about p{
+  font-size: 20px;
+  text-underline-offset: 10px;
+ 
+  text-align: center;
+  margin-top: 50px;
+  margin: 0 60px;
+}
+
+.image{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin:100px 300px 0 300px;
+}
+
+#skills{
+  width: 70%;
+  margin-top: 4rem;
+  margin-left: 190px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+ 
+
+
+#skill-progress{
+  width: 12rem;
+  height: 1.8rem;
+  margin: 20px;
+  background-color: lightgrey;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 2px 1px #b9b9b9;
+}
+
+
+
+  .skill-name {
+    font-size: 15px;
+    color: white;
+    padding: 6px 0 10px 20px;
+
+}
+
+.skill-name span {
+    margin: 0;
+}
+
+.skill-eighty-percent{
+width: 80%;
+height: inherit;
+background-color:orangered;
+}
+.skill-seventy-percent{
+  width: 70%;
+  height: inherit;
+  background-color:rgb(18, 120, 183);
+  }
+  .skill-sixty-percent{
+    width: 65%;
+    height: inherit;
+    background-color:rgb(218, 196, 31);
+    }
+    .skill-fifty-percent{
+      width: 85%;
+      height: inherit;
+      background-color:rgb(27, 207, 234);
+      }
+
+
+      #experience h1{
+        font-size: 40px;
+        text-underline-offset: 10px;
+        text-transform: uppercase;
+        text-align: center;
+        margin-top: 100px;
+        color: rgb(19, 19, 96);
+    }
+
+
+    .timeline {
+      position: relative;
+      left: 15%;
+      width: 75%;
+ 
+  
+  }
+  .timeline-box {
+    position: relative;
+    margin: 5px;
+    width: 40%;
+    left: 5%;
+    min-height: 150px;
+}
+.timeline-box h2{
+  display: flex;
+  justify-content: flex-end;
+  color:rgb(11, 11, 108)
+}
+.timeline-box h4{
+  display: flex;
+  justify-content: flex-end;
+  color:rgb(218, 101, 18)
+}
+
+.timeline-box p{
+  display: flex;
+  justify-content: flex-end;
+  color:rgb(158, 158, 158)
+}
+
+.timeline-box:nth-child(2n) {
+    left: 53%;
+}
+
+.timeline-divider{
+  position: absolute;
+  height: 100%;
+  border:3px dashed rgb(79, 164, 249);
+  left:50%;
+  width: 0%;
+}
+
+.timeline-traveller{
+  position: sticky;
+ transform: rotate(90deg);
+}
+/* Contact*/
+
+#contact h1{
+  font-size: 40px;
+  text-underline-offset: 10px;
+  text-transform: uppercase;
+  text-align: center;
+  
+}
+#Portfolio h1{
+  font-size: 40px;
+  text-underline-offset: 10px;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgb(19, 19, 96);
+  
+}
+#contact{
+  background-color: #0abcf9;
+  background-image: linear-gradient(50deg, #2857a4 0%, #403066 74%);
+  color: white;
+    padding-bottom: 40px;
+    
+}
+#contact-form {
+  margin-left: 20%;
+}
+#contact-container {
+  display: flex;
+}
+
+#my-details-container {
+  width: 35%;
+  margin-left: 6%;
+}
+
+#my-details-container h3 {
+  color: white;
+  font-weight: 550;
+  font-size: 1.2rem;
+}
+#contact-form-container {
+  width: 50%;
+}
+#my-details-container p {
+  color: #d9dcdd;
+  font-size: 0.9rem;
+}
+.my-details-info-container {
+  margin-bottom: 20px;
+  color: #d9dcdd;
+}
+.my-details-info-container span {
+  margin-left: 0.4rem;
+  font-size: 0.95rem;
+}
+.my-details-info-container i {
+  color: white;
+}
+
+
+#contact-form input,
+textarea {
+    max-width: 90%;
+    margin: 15px;
+    padding: 4px 10px;
+    border: 0px solid transparent;
+    border-bottom: 2px solid white;
+    /*#2857a4*/
+    color: var(--contact-light-text-color);
+    background: transparent;
+    width: 90%;
+    line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+
+
+#contact-form button[type="submit"] {
+    background: transparent;
+    /*#1a1a1a;*/
+    font-size: 0.95rem;
+    border: 2px solid white;
+    margin-top: 5%;
+    margin-left: 35%;
+    border-radius: 2px;
+    color: white;
+    font-family: sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.046875em;
+    line-height: 1;
+    padding: 0.8em 0.8em 0.78em;
+    text-transform: uppercase;
+}
+
+#contain-container{
+  display: flex;
+}
+#contact .social-icons li a i {
+  font-size: 1.2rem;
+  margin: 40px 10px 10px;
+  padding: 10px 14px 20px 10px;
+
+}
+
+
+.text-center{
+margin-left:290px;
+}
+
+
+
+/* Portfolio Section */
+
+#portfolio-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 50px;
+  margin-bottom: 2%;
+  justify-content: space-around;
+}
+
+.portfolio-image-container {
+  max-width: 300px;
+  overflow: hidden;
+  margin: 10px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+}
+
+
+.portfolio-image-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.portfolio-details {
+  /* display: none; */
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  color: transparent;
+  text-align: center;
+  padding: 10px;
+  /* background-color: white; */
+}
+
+.portfolio-image-container:hover {
+  box-shadow: 0 0 20px #74ADC8;
+}
+
+.portfolio-image-container:hover .portfolio-details {
+  background-color: #80808078;
+  /* display: block; */
+  color: white;
+}
+
