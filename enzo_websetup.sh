@@ -51,9 +51,6 @@ cat << EOF | sudo tee $CONF_FILE
     RewriteEngine on
     RewriteCond %{HTTPS} off
     RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
-    SSLCertificateFile /etc/letsencrypt/live/enzodevops.online/fullchain.pem
-    SSLCertificateKeyFile /etc/letsencrypt/live/enzodevops.online/privkey.pem
-    Include /etc/letsencrypt/options-ssl-apache.conf
     <FilesMatch "\.(cgi|shtml|phtml|php)$">
         SSLOptions +StdEnvVars
     </FilesMatch>
@@ -62,9 +59,10 @@ cat << EOF | sudo tee $CONF_FILE
     </Directory>
 </VirtualHost> 
 EOF
+sudo systemctl reload apache2.service && sudo systemctl restart apache2.service
 sudo certbot --apache -d enzodevops.online --non-interactive --agree-tos -m admin@enzodevops.online
 sudo a2ensite enzodevops.online
-sudo systemctl restart apache2.service
+sudo systemctl reload apache2.service && sudo systemctl restart apache2.service
 sudo systemctl status apache2.service
 
 
