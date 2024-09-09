@@ -12,7 +12,6 @@ sudo sed -i 's/#Port 22/Port 1243/g' /etc/ssh/sshd_config
 echo "ClientAliveInterval 360" | sudo tee -a /etc/ssh/sshd_config
 sudo systemctl restart ssh
 sudo apt-get install -y net-tools git lynx unzip zip curl apache2 openssl certbot python3-certbot-apache
-
 sudo a2enmod rewrite
 sudo a2enmod ssl
 sudo systemctl enable apache2
@@ -24,7 +23,6 @@ sudo rm -rf /var/www/html/*
 cd /opt/
 sudo git clone https://github.com/elsonpulikkan96/enzodevops.online
 sudo cp -R /opt/enzodevops.online/* /var/www/html/
-
 CONF_FILE="/etc/apache2/sites-available/enzodevops.online.conf"
 sudo touch $CONF_FILE
 cat << EOF | sudo tee $CONF_FILE
@@ -33,11 +31,9 @@ cat << EOF | sudo tee $CONF_FILE
     ServerName enzodevops.online
     ServerAlias www.enzodevops.online
     DocumentRoot /var/www/html
-
     RewriteEngine on
     RewriteCond %{HTTPS} off
     RewriteRule ^/?(.*) https://%{SERVER_NAME}/\$1 [R=301,L]
-
     ErrorLog \${APACHE_LOG_DIR}/error.log
     CustomLog \${APACHE_LOG_DIR}/access.log combined
     RewriteCond %{SERVER_NAME} =enzodevops.online [OR]
@@ -50,7 +46,6 @@ cat << EOF | sudo tee $CONF_FILE
     ServerName enzodevops.online
     ServerAlias www.enzodevops.online
     DocumentRoot /var/www/html
-
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
     RewriteEngine on
@@ -58,37 +53,31 @@ cat << EOF | sudo tee $CONF_FILE
     RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
     SSLCertificateFile /etc/letsencrypt/live/enzodevops.online/fullchain.pem
     SSLCertificateKeyFile /etc/letsencrypt/live/enzodevops.online/privkey.pem
+    Include /etc/letsencrypt/options-ssl-apache.conf
     <FilesMatch "\.(cgi|shtml|phtml|php)$">
         SSLOptions +StdEnvVars
     </FilesMatch>
-
     <Directory /usr/lib/cgi-bin>
         SSLOptions +StdEnvVars
     </Directory>
-SSLCertificateFile /etc/letsencrypt/live/enzodevops.online/fullchain.pem
-SSLCertificateKeyFile /etc/letsencrypt/live/enzodevops.online/privkey.pem
-Include /etc/letsencrypt/options-ssl-apache.conf
 </VirtualHost> 
 EOF
-
-sudo a2ensite enzodevops.online
 sudo certbot --apache -d enzodevops.online --non-interactive --agree-tos -m admin@enzodevops.online
+sudo a2ensite enzodevops.online
 sudo systemctl restart apache2.service
 sudo systemctl status apache2.service
 
 
-
 #Work around if getting SSL related errors:
 
+# nslookup enzodevops.online -  Check if enzodevops.online is pointed to an A Record 
 
-#nslookup enzodevops.online -  check if enzodevops.online is pointed to an A Record 
-
-
- #Temporary comment on the Config for SSL on /etc/apache2/sites-available/enzodevops.online.conf
+ # Temporary comment on the Config for SSL on /etc/apache2/sites-available/enzodevops.online.conf
 
     #SSLCertificateFile /etc/letsencrypt/live/enzodevops.online/fullchain.pem
     #SSLCertificateKeyFile /etc/letsencrypt/live/enzodevops.online/privkey.pem
 
+#Then generate SSL again after Pointing A record on Route 53 - Hosted Zone
 
 # sudo certbot --apache -d enzodevops.online --non-interactive --agree-tos -m admin@enzodevops.online
 
