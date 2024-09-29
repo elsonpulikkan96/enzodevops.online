@@ -17,24 +17,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Configure SSH agent (for secure connections)
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
-
-      # Optionally, you can add the EC2 IP to known_hosts manually
-      - name: Add EC2 host to known_hosts
-        run: |
-          ssh-keyscan -H $PUBLIC_IP >> ~/.ssh/known_hosts
-
-      - name: Copy files to EC2 (secure transfer)
+      - name: Set up SSH and copy files
         uses: appleboy/scp-action@v0.1.1
         with:
           host: ${{ env.PUBLIC_IP }}
           username: ${{ env.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
-          source: './*'  # Ensure you are copying the correct files
-          target: '/var/www/html'  # Update this to your target directory on the EC2 instance
+          source: './*'
+          target: '/var/www/html'
+          exclude:
+            - '.git/**'
 
       - name: Restart Apache server on EC2
         uses: appleboy/ssh-action@v0.1.1
@@ -43,4 +35,3 @@ jobs:
           username: ${{ env.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
           script: sudo systemctl restart apache2
-
