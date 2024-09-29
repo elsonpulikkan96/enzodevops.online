@@ -33,9 +33,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
           source: './*'
           target: '/var/www/html'
-          strip-components: 1
-          exclude:
-            - '.git/**'
 
       - name: Restart Apache server
         uses: appleboy/ssh-action@v0.1.5
