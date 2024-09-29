@@ -13,15 +13,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Add SSH key
+      - name: Configure SSH agent (improved security)
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
 
-      - name: Copy files to EC2
-        run: |
-          scp -o StrictHostKeyChecking=no -r ./* ec2-user@13.234.33.15:/var/www/html/
+      - name: Add SSH public key to known_hosts (avoid StrictHostKeyChecking)
+        uses: actions/ssh-key-add@v1
+        with:
+          ssh-key: ${{ secrets.EC2_SSH_KEY_PUBLIC }}
+          host: ec2-user@13.234.33.15
 
-      - name: Restart Apache server on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@13.234.33.15 'sudo systemctl restart apache2'
+      - name: Copy files to EC2 (secure transfer)
+        uses: actions/scp@v2
+        with:
+          host: ec2-user@13.234.33.15
+          source: .
+          target: /var/www/html
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
+
+      - name: Restart Apache server on EC2 (improved security)
+        uses: actions/ssh@v1
+        with:
+          host: ec2-user@13.234.33.15
+          command: sudo systemctl restart apache2
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
