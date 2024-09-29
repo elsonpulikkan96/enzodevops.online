@@ -35,8 +35,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
           source: './*'  # Ensure you are copying the correct files
           target: '/var/www/html'  # Update this to your target directory on the EC2 instance
-          exclude:
-            - '.git/**'  # Exclude .git folder and its contents
 
       - name: Restart Apache server on EC2
         uses: appleboy/ssh-action@v0.1.1
