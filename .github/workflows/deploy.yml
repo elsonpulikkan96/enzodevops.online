@@ -25,7 +25,7 @@ jobs:
 
       - name: Configure SSH key
         run: |
-          echo "${{ secrets.EC2_SSH_KEY_PRIVATE }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_SSH_KEY_PRIVATE }}" | base64 --decode > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Test SSH connection
