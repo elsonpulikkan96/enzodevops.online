@@ -1,32 +1,47 @@
-name: Deploy Portfolio to EC2
+name: Deploy enzodevops.online Portfolio to EC2
 
 on:
   push:
     branches:
       - main
 
-env:
-  PUBLIC_IP: 3.110.77.19
-  EC2_USER: ubuntu
-  SSH_PORT: 1243
-
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Add EC2 server to known hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p ${{ env.SSH_PORT }} ${{ env.PUBLIC_IP }} >> ~/.ssh/known_hosts
+      - name: Copy files via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_EIP }}  # Use EC2 Elastic IP
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # Reference SSH private key
+          port: 1243  # Custom SSH port
+          source: "./*"  # All files in the repository
+          target: "/var/www/html/" 
 
-      - name: Configure SSH key
-        run: |
-          echo "${{ secrets.EC2_SSH_KEY_PRIVATE }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      - name: Add SSH public key to authorized keys
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_EIP }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          port: 1243
+          script: |
+            sudo mkdir -p /home/${{ secrets.EC2_USER }}/.ssh
+            sudo chmod 700 /home/${{ secrets.EC2_USER }}/.ssh
+            echo "${{ secrets.EC2_SSH_PUBLIC_KEY }}" >> /home/${{ secrets.EC2_USER }}/.ssh/authorized_keys
+            sudo chmod 600 /home/${{ secrets.EC2_USER }}/.ssh/authorized_keys
 
-      - name: Test SSH connection
-        run: ssh -i ~/.ssh/id_rsa -p ${{ env.SSH_PORT }} ${{ env.EC2_USER }}@${{ env.PUBLIC_IP }} "echo SSH connection successful"
+      - name: Restart Apache on EC2
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_EIP }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          port: 1243
+          script: |
+            sudo systemctl restart apache2
