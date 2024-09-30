@@ -18,14 +18,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Add EC2 server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ env.SSH_PORT }} ${{ env.PUBLIC_IP }} >> ~/.ssh/known_hosts
+
       - name: Configure SSH key
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ env.PUBLIC_IP }}
-          username: ${{ env.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY_PRIVATE }}
-          passphrase: ${{ secrets.EC2_SSH_KEY_PASSPHRASE }}
-          port: ${{ env.SSH_PORT }}  # Specify the custom port
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY_PRIVATE }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Test SSH connection
         run: ssh -i ~/.ssh/id_rsa -p ${{ env.SSH_PORT }} ${{ env.EC2_USER }}@${{ env.PUBLIC_IP }} "echo SSH connection successful"
